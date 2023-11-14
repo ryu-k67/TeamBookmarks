@@ -43,7 +43,6 @@ fork元： https://github.com/halmk/supporters_hackathon2022_vol8
 
 ## Development environment
 -  `docker-compose up -d`
----
 - Frontend
     -
     - `docker-compose exec app /bin/bash`
