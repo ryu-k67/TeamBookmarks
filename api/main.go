@@ -37,155 +37,7 @@ type ReturnData struct {
 
 
 // AWS lambda関数用に再構成
-// func bookmarkAPI(event *GetData) (Response, error) {
-
-// 	recv_url := event.Url
-// 	log.Printf("url: %s\n", event.Url)
-// 	log.Printf("url: %s\n", recv_url)
-// 	if len(recv_url) == 0 {
-// 		// err = fmt.Sprintf(http.StatusBadRequest, "url param required")
-// 		// err = fmt.Sprintf("url param required")
-// 		log.Printf("no url")
-// 		// data = &ReturnData{
-// 		// 	Title: "no url",
-// 		// 	Description: "no url",
-// 		// 	Image: "no url",
-// 		// }
-
-// 		return &Response{
-// 			Headers:map[string]string{
-// 			  "Content-type": "application/json",
-// 			  // CORS対応
-// 			  "Access-Control-Allow-Origin":  "*",
-// 			//   "Access-Control-Allow-Methods": "*",
-// 			},
-// 			Body:ReturnData{
-// 				Title: "no url",
-// 				Description: "no url",
-// 				Image: "no url",
-// 			},
-// 			StatusCode: 400,
-// 		}, fmt.Errorf("received no url error")
-// 	}
-
-// 	// u, err := url.Parse(recv_url)
-// 	// if err != nil {
-// 	// 	err = fmt.Sprintf(http.StatusInternalServerError, "failed to parse url")
-// 	// 	return nil, err
-// 	// }
-// 	// endpoint := fmt.Sprintf("%s://%s", u.Scheme, u.Host)
-// 	// robots_url, err := url.Parse(endpoint)
-// 	// if err != nil {
-// 	// 	log.Println("Error parsing index url:", err.Error())
-// 	// 	c.String(http.StatusInternalServerError, "failed to parse url")
-// 	// 	return
-// 	// }
-// 	// robots_url.Path = path.Join(robots_url.Path, "robots.txt")
-// 	// resp, err := http.Get(robots_url.String())
-// 	// if err != nil {
-// 	// 	log.Println("Error getting robots.txt:", err.Error())
-// 	// 	c.String(http.StatusInternalServerError, "failed to get robots.txt")
-// 	// 	return
-// 	// }
-
-// 	// robots, err := robotstxt.FromResponse(resp)
-// 	// defer resp.Body.Close()
-// 	// if err != nil {
-// 	// 	log.Println("Error parsing robots.txt:", err.Error())
-// 	// 	c.String(http.StatusInternalServerError, "failed to load robots.txt")
-// 	// 	return
-// 	// }
-// 	// allow := robots.TestAgent(u.Path, "bot")
-// 	// if !allow {
-// 	// 	log.Println("Scraping is forbidden")
-// 	// 	c.String(http.StatusBadRequest, "scraping is forbidden")
-// 	// 	return
-// 	// }
-
-// 	doc, err := goquery.NewDocument(recv_url)
-// 	if err != nil {
-// 		// log.Println("Error getting document", err.Error())
-// 		// err = fmt.Sprintf(http.StatusInternalServerError, "failed to get document")
-// 		// err = fmt.Sprintf("failed to get document")
-// 		log.Printf("no document")
-// 		// data = &ReturnData{
-// 		// 	Title: "error",
-// 		// 	Description: "error",
-// 		// 	Image: "error",
-// 		// }
-		
-// 		return &Response{
-// 			Headers:map[string]string{
-// 			  "Content-type": "application/json",
-// 			  // CORS対応
-// 			  "Access-Control-Allow-Origin":  "*",
-// 			//   "Access-Control-Allow-Methods": "*",
-// 			},
-// 			Body:ReturnData{
-// 				Title: "error",
-// 				Description: "error",
-// 				Image: "error",
-// 			},
-// 			StatusCode: 400,
-// 		}, fmt.Errorf("received no document error")
-// 	}
-
-// 	var res_title string
-// 	var res_description string
-// 	var res_image string
-
-// 	res_title = doc.Find("title").Text()
-// 	doc.Find("meta").Each(func(i int, s *goquery.Selection) {
-// 		property, _ := s.Attr("property")
-// 		name, _ := s.Attr("name")
-// 		content, _ := s.Attr("content")
-// 		if strings.Contains(property, "description") && len(res_description) == 0 {
-// 			res_description = content
-// 		} else if strings.Contains(property, "image") && len(res_image) == 0 {
-// 			res_image = content
-// 		} else if strings.Contains(name, "description") && len(res_description) == 0 {
-// 			res_description = content
-// 		} else if strings.Contains(name, "image") && len(res_image) == 0 {
-// 			res_image = content
-// 		}
-// 	})
-
-// 	log.Printf("Title: %s\n", res_title)
-// 	log.Printf("Description: %s\n", res_description)
-// 	log.Printf("Image: %s\n", res_image)
-
-// 	if len(res_title)==0{
-// 		res_title = "no title"
-// 	}
-// 	if len(res_description)==0{
-// 		res_description = "no description"
-// 	}
-// 	if len(res_image)==0{
-// 		res_image = "no image"
-// 	}
-
-// 	// data = &ReturnData{
-// 	// 	Title: res_title,
-// 	// 	Description: res_description,
-// 	// 	Image: res_image,
-// 	// }
-
-// 	return &Response{
-// 		Headers:map[string]string{
-// 			"Content-type": "application/json",
-// 			// CORS対応
-// 			"Access-Control-Allow-Origin":  "*",
-// 			//   "Access-Control-Allow-Methods": "*",
-// 		},
-// 		Body:ReturnData{
-// 			Title: res_title,
-// 			Description: res_description,
-// 			Image: res_image,
-// 		},
-// 		StatusCode: 200,
-// 	}, nil
-// }
-
+// レスポンスの中身を作成
 func makeReturnData(inputs string) (ReturnData, error) {
 	log.Printf("inputs: %s\n", inputs)
 	log.Printf(inputs)
@@ -275,7 +127,8 @@ func makeReturnData(inputs string) (ReturnData, error) {
 		Image: res_image,
 	}, nil
 }
-												// ↓ APIGatewayProxyRequest型で引数にPOSTした内容を受け取り、APIGatewayProxyResponseで変換するのが作法
+
+// 												↓ APIGatewayProxyRequest型で引数にPOSTした内容を受け取り、APIGatewayProxyResponseで変換するのが作法
 func bookmarkAPIHandler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// テキストデータをgolang構造体に変換
 	// var req ReturnData
@@ -310,83 +163,6 @@ func bookmarkAPIHandler(ctx context.Context, request events.APIGatewayProxyReque
 		}, err
 	}
 
-
-	// var event GetData
-	// err := json.Unmarshal([]byte(request.Body), &event)
-	// if err != nil {
-	// 	log.Printf("json unmarshal error")
-	// 	return events.APIGatewayProxyResponse{
-	// 		Headers:map[string]string{
-	// 			"Content-type": "application/json",
-	// 			// CORS対応
-	// 			"Access-Control-Allow-Origin":  "*",
-	// 			//   "Access-Control-Allow-Methods": "*",
-	// 		},
-	// 		Body: err.Error(),
-	// 		StatusCode: 500,
-	// 	}, err
-	// }
-
-	// recv_url := event.Url
-	// log.Printf("url: %s\n", event.Url)
-	// log.Printf("url: %s\n", recv_url)
-
-	// doc, err := goquery.NewDocument(recv_url)
-	// if err != nil {
-	// 	log.Printf("no document")
-	// 	return events.APIGatewayProxyResponse{
-	// 		Headers:map[string]string{
-	// 			"Content-type": "application/json",
-	// 			// CORS対応
-	// 			"Access-Control-Allow-Origin":  "*",
-	// 			//   "Access-Control-Allow-Methods": "*",
-	// 		},
-	// 		Body: err.Error(),
-	// 		StatusCode: 500,
-	// 	}, err
-	// }
-
-	// var res_title string
-	// var res_description string
-	// var res_image string
-
-	// res_title = doc.Find("title").Text()
-	// doc.Find("meta").Each(func(i int, s *goquery.Selection) {
-	// 	property, _ := s.Attr("property")
-	// 	name, _ := s.Attr("name")
-	// 	content, _ := s.Attr("content")
-	// 	if strings.Contains(property, "description") && len(res_description) == 0 {
-	// 		res_description = content
-	// 	} else if strings.Contains(property, "image") && len(res_image) == 0 {
-	// 		res_image = content
-	// 	} else if strings.Contains(name, "description") && len(res_description) == 0 {
-	// 		res_description = content
-	// 	} else if strings.Contains(name, "image") && len(res_image) == 0 {
-	// 		res_image = content
-	// 	}
-	// })
-
-	// log.Printf("Title: %s\n", res_title)
-	// log.Printf("Description: %s\n", res_description)
-	// log.Printf("Image: %s\n", res_image)
-
-	// if len(res_title)==0{
-	// 	res_title = "no title"
-	// }
-	// if len(res_description)==0{
-	// 	res_description = "no description"
-	// }
-	// if len(res_image)==0{
-	// 	res_image = "no image"
-	// }
-
-	// resData :=  ReturnData{
-	// 	Title: res_title,
-	// 	Description: res_description,
-	// 	Image: res_image,
-	// }
-
-
 	data, _ := json.Marshal(req)
 	
 	return events.APIGatewayProxyResponse{
@@ -401,42 +177,7 @@ func bookmarkAPIHandler(ctx context.Context, request events.APIGatewayProxyReque
 	}, nil
 }
 
-
-// func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-// 	// テキストデータをgolang構造体に変換
-// 	// var req ReturnData
-// 	log.Printf("request: %s\n", request)
-// 	log.Printf("body:%s\n",request.Body)
-// 	// log.Printf(request)
-// 	// req, err := makeReturnData(request.Body)
-// 	// if err != nil {
-// 	// 	return events.APIGatewayProxyResponse{
-// 	// 		Headers:map[string]string{
-// 	// 			"Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-// 	// 			"Content-Type": "application/json",
-// 	// 			"Access-Control-Allow-Origin": "*",
-// 	// 			"Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-// 	// 		},
-// 	// 		Body: err.Error(),
-// 	// 		StatusCode: 500,
-// 	// 	}, err
-// 	// }
-
-// 	// data, _ := json.Marshal(req)
-	
-// 	return events.APIGatewayProxyResponse{
-// 		Headers:map[string]string{
-// 			"Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-//             "Content-Type": "application/json",
-//             "Access-Control-Allow-Origin": "*",
-//             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-// 		},
-// 		Body: "request.Body",
-// 		StatusCode: 200,
-// 	}, nil
-// }
-
-
+// 本来のmain関数
 func main(){
 	lambda.Start(bookmarkAPIHandler)
 }
